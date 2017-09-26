@@ -1,0 +1,16 @@
+{
+  "name": "checkobj",
+  "version": "1.0.4",
+  "description": "js 对象校验的 模块",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./test.js"
+  },
+  "keywords": [
+    "基础模块",
+    "base",
+    "对象检验"
+  ],
+  "author": "hwx",
+  "license": "ISC"
+}
