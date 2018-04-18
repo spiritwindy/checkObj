@@ -1,6 +1,6 @@
 {
   "name": "checkobj",
-  "version": "1.0.4",
+  "version": "1.0.9",
   "description": "js 对象校验的 模块",
   "main": "index.js",
   "scripts": {
@@ -9,8 +9,14 @@
   "keywords": [
     "基础模块",
     "base",
-    "对象检验"
+    "对象检验",
+    "(函数式)自动类型转换"
   ],
   "author": "hwx",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spitWind/checkObj.git"
+  },
+  "homepage": "https://github.com/spitWind/checkObj/tree/master/checkobj"
 }
