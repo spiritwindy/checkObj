@@ -1,19 +1,22 @@
-```var checkObj=require("./checkObj.js").checkObj;
+函数检验
+====
+` `` var checkObj=require("./checkObj.js").checkObj;
 var gen_checker=require("./checkObj.js").gen_checker
-```
-checkobj(obj,checker)数组，对象都支持，字符串
-添加了自动生成 //自动生成校验器
+` `` 
+checkobj(obj,checker)
+数组，对象都支持，字符串、
+添加了自动生成校验器
 
 ######函数式校验
-```
-//{a:val} 校验器{a:function(val,key){ }}  //回调参数为(val,"a") //值和键
+` `` 
+//{a:val} 校验器为：{a:function(val,key){ }}  //回调参数为(val,"a") //值和键
 
 
 
 var dat=[{a:20,b:"asdhasud"},{a:20,b:"asdhasud"},{a:20,b:"asdhasud"}];
 console.log(gen_checker(dat));  //  [ { a: 'number', b: 'string' } ]
 
-
+` `` 
 
 // /const
 var checkObj=require("./checkObj.js").checkObj;
