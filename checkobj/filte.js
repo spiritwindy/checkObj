@@ -46,5 +46,5 @@ function filte(obj ,checker) {// 允许有函数键 数组键  ； 过滤
     for (var key in checker) {
         coll[key]=arguments.callee(obj[key],checker[key]);
     }
-} //
+}
 module.exports.filte=filte;
