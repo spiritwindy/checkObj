@@ -3,7 +3,7 @@
 ## 安装
 
 ```
-$ npm install ejs
+$ npm install checkobj
 ```
 ## 总览
 ```
