@@ -1,8 +1,20 @@
 /**
+ * 未实现
+ * 数组  string[]
+ * @type {symbol}
+ */
+// var exports=module.exports/
+exports.unrequired=Symbol("unrequired");  // 标记不需要的键
+/**
+ * 标记允许扩展 为true;
+ * @type {symbol}
+ */
+exports.expand=Symbol("expand");
+/**
  *
- * @param {Object} obj 要检查的对象
+ * @param {any} obj 要检查的对象
  * @param {any} checker  检查器具
- * @return {Boolean}
+ * @return {Boolean}  正确返回true
  */
 function checkObj(obj, checker) {
     if (!obj) return false;
@@ -18,8 +30,6 @@ function checkObj(obj, checker) {
                    res= ck_arr0(arr[i1],i1);//函数校验器 可以允许有 传当前val 以及 key
                 else
                  res = arguments.callee(arr[i1], ck_arr0);
-/*                console.log(arr[i1], ck_arr0);
-                console.log(res);*/
                 if (!res)
                     return false;
             }
@@ -36,27 +46,27 @@ function checkObj(obj, checker) {
         return true;
     }
     else if (checker.constructor === String) {
-        if (checker !== "") {
+        if (checker!== "") {
                 return typeof obj === checker.toLowerCase()
         }
         else
-            return true
+            return true;
     }
-
+    else  if(checker.constructor===RegExp){
+        return typeof obj ==="string" && checker.test&&checker.test(obj);
+    }
     /// /return arguments.callee({arr:obj,arr:checker});//反了....
     var checkerKey = Object.keys(checker);
     var objkey = Object.keys(obj);
-
     if(obj.constructor!==Object)
     {
-       // debugger
         throw  "gg..内部异常"+typeof obj +typeof checker;
     }
-
+    if(!checker[exports.expand])
     for (var j = 0, len = objkey.length; j < len; j++) {
         if (!checker.hasOwnProperty(objkey[j]))
             return false;
-    }// 多余属性 返回错误i
+    }// 多余属性 返回错误
     for (var i = 0, len = checkerKey.length; i < len; i++) {
         var checker_Key = checkerKey[i];
         if (!obj.hasOwnProperty(checker_Key))
@@ -85,13 +95,51 @@ function checkObj(obj, checker) {
     }
     return true;
 }
+/**
+ * 全局校验
+ * @type {Map}
+ */
+var genRule=new Map(); //
+genRule.set(Function,function () {
+   return "function"
+});
+/**
+ * @param type # constructor
+ * callVal(val)l
+ */
+function setGenRule(type,callVal) {
+    genRule.set(type,callVal);
+}
 
-
-
-var gen_checker= function (obj) {
+/**
+ *
+ * @param obj
+ * @param {Map} genRuleargu
+ * @return {*}
+ */
+var gen_checker= function (obj,genRuleargu) {
+   // var genRule=genRuleargu||genRule;
+    if(!genRuleargu){
+        var genRule0=genRule;
+    }else { //放外层递归
+        var genRule0=new Map();
+        for (var [key,value] of genRuleargu) {
+            genRule0.set(key,value);
+        }
+        for (var [key,value] of genRule) {
+            if(!genRule0.has(key))
+            genRule0.set(key,value);
+        } //
+    }
     var objType=typeof  obj;
+    if(objType==="undefined"||obj===null){
+        return "undefined"
+    }
+    var  cb=genRule0.get(obj.constructor);
+       if(cb)
+        return cb(obj);
     if(objType!=="object"){
-        return typeof  obj;
+        return objType;
     }
     if(obj.constructor===Array){
         if(obj.length>0)
@@ -99,16 +147,50 @@ var gen_checker= function (obj) {
         else return [];
     }
     var checker={};
-    for (var key in obj) {
+    var arr=Object.keys(Object.getOwnPropertyDescriptors(obj));
+    for (var i=0,len=arr.length;i<len ;i++ ) {//遍历obj
+        var key=arr[i];
         var type=typeof  obj[key];
-        if(type!=="object" ){
+        if(type!=="object"&&type!=="function" ){
             checker[key]=type;
         }else {
-            checker[key]= arguments.callee(obj[key]);
+            checker[key]= arguments.callee(obj[key],genRule0);
         }
     }
     return checker
 };
 
+exports.gentsDoc=function (params) {
+    var genRule=new Map([[Function,function (v) {
+      var paramName=   v.toString().match(/\(.*?\)/);
+      if(!paramName){
+          paramName= v.toString().split(/\=\s*\>/)
+      }
+      var paramStr= paramName[0]||"()";
+      return paramStr+"=>any"
+    }]]);
+    var obj=gen_checker(params,genRule);
+    // var a = JSON.stringify(obj).replace(/\"/g,"");
+    // a=a.replace(/\:function/g,"(...params):any").replace(/\,/g,";\n");
+    return tsObjtoString(obj);
+  }
+  function tsObjtoString(obj) {
+    if(obj.__proto__!=Object.prototype)
+      return obj;
+    var arr=[]//,"}"
+    for(var k in obj){
+        if(k=="constructor"){
+            continue;
+        }
+        arr.push(k+":"+tsObjtoString(obj[k]))
+    }
+    return "{"+ arr.join(";\n")+"}";
+  }
+  exports.genTypeDoc=function (params) {
+    var a=  JSON.stringify(gen_checker(params)).replace(/\"/g,""); 
+    return a;
+  }
+
 exports.checkObj = checkObj;
 exports.gen_checker=gen_checker;
+exports.setGenRule=setGenRule;

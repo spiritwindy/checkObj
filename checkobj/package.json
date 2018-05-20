@@ -1,6 +1,6 @@
 {
   "name": "checkobj",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "js 对象校验的 模块",
   "main": "index.js",
   "scripts": {
@@ -18,5 +18,6 @@
     "type": "git",
     "url": "https://github.com/spitWind/checkObj.git"
   },
-  "homepage": "https://github.com/spitWind/checkObj/tree/master/checkobj"
+  "homepage": "https://github.com/spitWind/checkObj/tree/master/checkobj",
+  "dependencies": {}
 }
