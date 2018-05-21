@@ -134,3 +134,4 @@ validate:(rules, obj)=>any;
 addRule:(type, check)=>any}
 
 ```
+更新
