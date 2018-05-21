@@ -1,22 +1,54 @@
 {
-  "name": "checkobj",
-  "version": "1.0.9",
-  "description": "js 对象校验的 模块",
-  "main": "index.js",
-  "scripts": {
-    "test": "node ./test.js"
+  "_from": "checkobj",
+  "_id": "checkobj@1.0.10",
+  "_inBundle": false,
+  "_integrity": "sha512-hgVQZZp6WwC6n3QWwrivSDJdW6TulEQBzEDmG5nTOPA1xZssCxw9Nzx/uDStg9SQ0jQ6HVz9Dv8tVfi3/k6VGQ==",
+  "_location": "/checkobj",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "checkobj",
+    "name": "checkobj",
+    "escapedName": "checkobj",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
   },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/checkobj/-/checkobj-1.0.10.tgz",
+  "_shasum": "6ead41c7f1df6064233e9b846128a32335a1bcdc",
+  "_spec": "checkobj",
+  "_where": "C:\\Users\\Administrator\\Desktop\\LIb\\che1",
+  "author": {
+    "name": "hwx"
+  },
+  "bugs": {
+    "url": "https://github.com/spitWind/checkObj/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {},
+  "deprecated": false,
+  "description": "js 对象校验的 模块",
+  "homepage": "https://github.com/spitWind/checkObj/tree/master/checkobj",
   "keywords": [
     "基础模块",
     "base",
     "对象检验",
     "(函数式)自动类型转换"
   ],
-  "author": "hwx",
   "license": "ISC",
+  "main": "index.js",
+  "name": "checkobj",
   "repository": {
     "type": "git",
-    "url": "https://github.com/spitWind/checkObj.git"
+    "url": "git+https://github.com/spitWind/checkObj.git"
   },
-  "homepage": "https://github.com/spitWind/checkObj/tree/master/checkobj"
+  "scripts": {
+    "test": "node ./test.js"
+  },
+  "version": "1.0.10"
 }
