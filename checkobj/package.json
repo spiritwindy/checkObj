@@ -13,11 +13,12 @@
     "(函数式)自动类型转换"
   ],
   "author": "hwx",
-  "license": "ISC",
+  "license": "GPLV2",
   "repository": {
     "type": "git",
     "url": "https://github.com/spitWind/checkObj.git"
   },
   "homepage": "https://github.com/spitWind/checkObj/tree/master/checkobj",
-  "dependencies": {}
+  "dependencies": {},
+  "types":"./typings/index.ts"
 }
