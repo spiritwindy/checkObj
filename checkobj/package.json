@@ -1,6 +1,6 @@
 {
   "name": "checkobj",
-  "version": "1.0.10",
+  "version": "1.0.9",
   "description": "js 对象校验的 模块",
   "main": "index.js",
   "scripts": {
@@ -13,12 +13,10 @@
     "(函数式)自动类型转换"
   ],
   "author": "hwx",
-  "license": "GPLV2",
+  "license": "ISC",
   "repository": {
     "type": "git",
     "url": "https://github.com/spitWind/checkObj.git"
   },
-  "homepage": "https://github.com/spitWind/checkObj/tree/master/checkobj",
-  "dependencies": {},
-  "types":"./typings/index.ts"
+  "homepage": "https://github.com/spitWind/checkObj/tree/master/checkobj"
 }

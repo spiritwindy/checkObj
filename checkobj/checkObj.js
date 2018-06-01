@@ -91,3 +91,4 @@ function checkObj(obj, checker) {
 }
 
 exports.checkObj = checkObj;
+exports.gen_checker=gen_checker;
