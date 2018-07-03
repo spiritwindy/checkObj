@@ -1,3 +1,5 @@
 /.idea/
 /checkobj/.idea/
 exam.js
+checkobj/package-lock.json
+/.history
