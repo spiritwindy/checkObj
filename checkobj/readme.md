@@ -30,6 +30,17 @@ false
     注意 所有的校验器和元素具有一样的树结构;
  ```
   注意 所有的校验器和元素具有一样的树结构;
+###  增加校验器的声明
+为了方便解耦合 ,增加了声明校验器的方法, 用字符串代替重复的校验器
+例如
+```
+checkObj.delChecker("a4")
+
+checkObj.addChecker("a4",/a{4}/)
+checkObj.checkObj("aaaa1","a4")
+```
+
+
 ### 函数式校验
 ```
 //对于对象{a:val} 校验器为：{a:function(val,key){ }}  
