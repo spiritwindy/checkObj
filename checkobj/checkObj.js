@@ -2,7 +2,9 @@ exports.sym = {
   unrequired: Symbol("unrequired"), //  标记不需要的键数组  string[] 未实现
   expand: Symbol("expand") //标记允许扩展 为true;
 };
-exports.defChecker={};
+exports.defChecker={
+"array":Array.isArray
+};
 /**
  * 
  * @param {String} name 

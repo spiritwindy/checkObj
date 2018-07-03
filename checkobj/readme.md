@@ -12,6 +12,17 @@ checkObj(obj,checker)//支数组，对象，字符串、
 var gen_checker=require("checkobj").gen_checker;// 生成校验器
 gen_checker(obj)// 自动生成校验器
 ```
+### 基础
+```
+var assert=require("assert");
+var checkobj=require("../index");
+assert.strictEqual(checkobj.checkObj(true,"boolean"),true);
+assert.strictEqual(checkobj.checkObj(false,"string"),false);
+assert.strictEqual(checkobj.checkObj(1,"number"),true);
+assert.strictEqual(checkobj.checkObj(null,"object"),true);
+assert.strictEqual(checkobj.checkObj({},"object"),true);
+```
+其中 基础类型只是对 type var 用来做验证
 ###  字符串正则校验
 ```(1.10新增)
 checkobj.checkObj("aaaa1",/a{4}/)

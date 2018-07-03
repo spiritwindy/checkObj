@@ -1,6 +1,6 @@
 {
   "name": "checkobj",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "js 对象校验的 模块",
   "main": "index.js",
   "scripts": {
