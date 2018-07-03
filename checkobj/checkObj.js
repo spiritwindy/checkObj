@@ -21,11 +21,11 @@ exports.delChecker=function (name) {
  * @return {Boolean}  正确返回true
  */
 function checkObj(obj, checker) {
-  if (!obj) return false;
+  // if (!obj) return false;//debigger
   if (checker.constructor === Function) return checker(obj); // 函数校验
   if (checker.constructor === Array) {
     //数组校验
-    if (obj.constructor !== Array) return false;
+    if (!Array.isArray(obj)) return false;
     var arr = obj;
     if (checker.length === 1) {
       //长度为1可以 作为整个数组的检测
@@ -60,12 +60,14 @@ function checkObj(obj, checker) {
     return typeof obj === "string" && checker.test && checker.test(obj);
   }
 
+
   /// /return arguments.callee({arr:obj,arr:checker});//反了....
   var checkerKey = Object.keys(checker);
-  var objkey = Object.keys(obj);
-  if (obj.constructor !== Object) {
+ 
+  if (typeof obj!="object" || obj.constructor !== Object ||obj===null) {
     throw "..内部异常" + typeof obj + typeof checker;
   }
+  var objkey = Object.keys(obj);
   if (!checker[exports.sym.expand])
     for (var j = 0, len = objkey.length; j < len; j++) {
       if (!checker.hasOwnProperty(objkey[j])) return false;
@@ -73,16 +75,8 @@ function checkObj(obj, checker) {
   for (var i = 0, len = checkerKey.length; i < len; i++) {
     var checker_Key = checkerKey[i];
     if (!obj.hasOwnProperty(checker_Key)) return false;
-    if (checker[checker_Key].constructor === String) {
-      if (checker[checker_Key] !== "") {
-        if (typeof obj[checker_Key] !== checker[checker_Key].toLowerCase())
-          return false;
-      }
-    } else if (checker[checker_Key].constructor === Object) {
-      // console.log("自身调用");
-      var res2 = arguments.callee(obj[checker_Key], checker[checker_Key]);
-      if (!res2) return false;
-    } else if (checker[checker_Key].constructor === Function) {
+ 
+    if (checker[checker_Key].constructor === Function) {
       if (!checker[checker_Key](obj[checker_Key], checker_Key))
         //传所在键的 key  // 一个校验不通过 返回
         return false;
@@ -90,7 +84,12 @@ function checkObj(obj, checker) {
       // 长度为0 默认 校验为数组
       var obj_arr1 = obj[checker_Key];
       var checker_arr2 = checker[checker_Key];
-      if (!arguments.callee(obj_arr1, checker_arr2)) return false;
+      if (!arguments.callee(obj_arr1, checker_arr2))
+       return false;
+    }else{
+      if (!arguments.callee(obj[checker_Key],checker[checker_Key])) {
+        return false;
+      }
     }
   }
   return true;

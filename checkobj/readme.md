@@ -85,15 +85,12 @@ var checker1 = {
 };
 
 
-console.log("空字符串匹配任意类型:"+checkObj({a:"555",b:555,c:undefined},checker));//待改
+console.log("空字符串匹配任意类型(false, undefined 不允许设值):"+checkObj({a:"555",b:555,c:undefined},checker));
 
-console.log("不允许扩展属性:"+checkObj({a:undefined,b:555,c:"test String",d:{a:undefined,b:555,c:"num"}},checker));
-
-console.log("多级属性, 扩展:"+checkObj({a:undefined,b:555,c:"test String",d:{a:undefined,b:555,c:"num"}},checker1));//true
-
-console.log("空字符串匹配任意类型:"+checkObj({a:undefined,b:555,c:"test String"},checker));
-//true
-console.log("undefined 的不允许设置智:"+checkObj({a:555,b:"555",c:undefined},checker));//falase
+console.log("默认不允许扩展属性(false):"+checkObj({a:undefined,b:555,c:"test String",d:{a:undefined,b:555,c:"num"}},checker));//false
+console.log("正常测试用例（true）"+checkObj({a:undefined,b:555,c:"test String",d:{a:undefined,b:555,c:"num"}},checker1));//true
+console.log("正常测试用例（true）"+checkObj({a:undefined,b:555,c:"test String"},checker));//true
+console.log("类型错误（false）"+checkObj({a:555,b:"555",c:undefined},checker));
 ```
 
 

@@ -1,6 +1,6 @@
 // /const
-var checkObj=require("./checkObj.js").checkObj;
-var gen_checker=require("./checkObj.js").gen_checker
+var checkObj=require("./index").checkObj;
+var gen_checker=require("./index").gen_checker
 var checker = {
     "a": "undefined", "b": "number",c:""
 };
@@ -21,11 +21,16 @@ var checkFunc = {
 };
 
 /*checker.d=;*/
-console.log("[[["+checkObj({a:"555",b:555,c:undefined},checker));
-console.log("[[["+checkObj({a:undefined,b:555,c:"test String",d:{a:undefined,b:555,c:"num"}},checker));//false
-console.log("[[["+checkObj({a:undefined,b:555,c:"test String",d:{a:undefined,b:555,c:"num"}},checker1));//true
-console.log("[[["+checkObj({a:undefined,b:555,c:"test String"},checker));//true
-console.log("[[["+checkObj({a:555,b:"555",c:undefined},checker));
+debugger
+console.log("空字符串匹配任意类型(false, undefined 不允许设值):"+checkObj({a:"555",b:555,c:undefined},checker));
+
+console.log("默认不允许扩展属性(false):"+checkObj({a:undefined,b:555,c:"test String",d:{a:undefined,b:555,c:"num"}},checker));//false
+console.log("正常测试用例（true）"+checkObj({a:undefined,b:555,c:"test String",d:{a:undefined,b:555,c:"num"}},checker1));//true
+console.log("正常测试用例（true）"+checkObj({a:undefined,b:555,c:"test String"},checker));//true
+console.log("类型错误（false）"+checkObj({a:555,b:"555",c:undefined},checker));
+
+
+
 var a={"a":2,"b":[3,6,9]};
 
 console.log(JSON.stringify(a)+":"+checkObj(a,checkFunc));// true  函数 检测 数据
