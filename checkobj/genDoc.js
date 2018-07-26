@@ -7,6 +7,10 @@ genRule.set(Function, function() {
   return "function";
 });
 
+/* genRule.set(Array, function(v) {
+  return [gen_checker(v[0])];
+}); */
+
 /**
  * @param type # constructor
  * callVal(val)
@@ -18,7 +22,7 @@ function setGenRule(type, callVal) {
 /**
  *
  * @param obj
- * @param {Map} genRuleargu
+ * @param {Map=} genRuleargu
  * @return {*}
  */
 var gen_checker = function(obj, genRuleargu) {
@@ -67,14 +71,7 @@ exports.gentsDoc = function(params) {
   var genRule = new Map([
     [
       Function,
-      function(v) {
-        var paramName = v.toString().match(/\(.*?\)/);
-        if (!paramName) {
-          paramName = v.toString().split(/\=\s*\>/);
-        }
-        var paramStr = paramName[0] || "()";
-        return paramStr + "=>any";
-      }
+      funcString
     ]
   ]);
   var obj = gen_checker(params, genRule);
@@ -83,7 +80,22 @@ exports.gentsDoc = function(params) {
   return tsObjtoString(obj);
 };
 
+const funcString=function(){
+   let fString=Function.prototype.toString;
+   return     function(v) {
+    var paramName = fString.call(v).match(/\(.*?\)/);
+    if (!paramName) {
+      paramName = fString.call(v).split(/\=\s*\>/);
+    }
+    var paramStr = paramName[0] || "()";
+    return paramStr + "=>any";
+  }
+}
+
 function tsObjtoString(obj) {
+  if (Array.isArray(obj)) {
+    return tsObjtoString(obj[0]) + "[]";
+  }
   if (obj.__proto__ != Object.prototype) return obj;
   var arr = []; //,"}"
   for (var k in obj) {
@@ -101,3 +113,4 @@ exports.genTypeDoc = function(params) {
 };
 exports.setGenRule = setGenRule;
 exports.gen_checker = gen_checker;
+
