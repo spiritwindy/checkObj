@@ -1,4 +1,4 @@
-var c=require("checkobj").gen_checker(require("parameter").prototype);
+var c=require("../").gen_checker(require("parameter").prototype);
 
 console.log(c);
 /*
