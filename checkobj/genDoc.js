@@ -67,6 +67,7 @@ var gen_checker = function(obj, genRuleargu) {
   return checker;
 };
 
+let {funcString}=require("./util/funcString");
 exports.gentsDoc = function(params) {
   var genRule = new Map([
     [
@@ -80,17 +81,7 @@ exports.gentsDoc = function(params) {
   return tsObjtoString(obj);
 };
 
-const funcString=function(){
-   let fString=Function.prototype.toString;
-   return     function(v) {
-    var paramName = fString.call(v).match(/\(.*?\)/);
-    if (!paramName) {
-      paramName = fString.call(v).split(/\=\s*\>/);
-    }
-    var paramStr = paramName[0] || "()";
-    return paramStr + "=>any";
-  }
-}
+
 
 function tsObjtoString(obj) {
   if (Array.isArray(obj)) {
@@ -102,10 +93,12 @@ function tsObjtoString(obj) {
     if (k == "constructor") {
       continue;
     }
-    arr.push(k + ":" + tsObjtoString(obj[k]));
+    arr.push((/^[_a-zA-Z][_a-zA-Z0-9]*$/.test(k)?k:JSON.stringify(k))  + ":" + tsObjtoString(obj[k]));
   }
   return "{" + arr.join(";\n") + "}";
 }
+
+
 
 exports.genTypeDoc = function(params) {
   var a = JSON.stringify(gen_checker(params)).replace(/\"/g, "");
