@@ -16,9 +16,5 @@ const funcString = (function(v) {
     return funcType + paramStr + "=>any";
   };
 })();
-//  console.log(funcString(async =>{}));
-//  console.log(funcString(async ()=>{}));
-//  console.log(funcString( ()=>{}));
-//  console.log(funcString(function  *(){}));
-//  console.log(funcString((a)=>{}))
+
 module.exports = { funcString };

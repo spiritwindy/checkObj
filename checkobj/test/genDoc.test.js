@@ -1,0 +1,5 @@
+var { gen_checker, genTypeDoc } = require("../genDoc")
+var x = gen_checker({ a: 50, b: "", c: [] })
+var w = genTypeDoc({ a: 50, b: "", c: [], x: undefined })
+console.log(x)
+console.log(w)

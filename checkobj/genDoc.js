@@ -3,7 +3,7 @@
  * @type {Map}
  */
 var genRule = new Map(); //
-genRule.set(Function, function() {
+genRule.set(Function, function () {
   return "function";
 });
 
@@ -20,12 +20,11 @@ function setGenRule(type, callVal) {
 }
 
 /**
- *
  * @param obj
  * @param {Map=} genRuleargu
  * @return {*}
  */
-var gen_checker = function(obj, genRuleargu) {
+var gen_checker = function (obj, genRuleargu) {
   // var genRule=genRuleargu||genRule;
   if (!genRuleargu) {
     var genRule0 = genRule;
@@ -37,7 +36,7 @@ var gen_checker = function(obj, genRuleargu) {
     }
     for (var [key, value] of genRule) {
       if (!genRule0.has(key)) genRule0.set(key, value);
-    } //
+    }
   }
   var objType = typeof obj;
   if (objType === "undefined" || obj === null) {
@@ -67,8 +66,8 @@ var gen_checker = function(obj, genRuleargu) {
   return checker;
 };
 
-let {funcString}=require("./util/funcString");
-exports.gentsDoc = function(params) {
+let { funcString } = require("./util/funcString");
+exports.gentsDoc = function (params) {
   var genRule = new Map([
     [
       Function,
@@ -81,8 +80,6 @@ exports.gentsDoc = function(params) {
   return tsObjtoString(obj);
 };
 
-
-
 function tsObjtoString(obj) {
   if (Array.isArray(obj)) {
     return tsObjtoString(obj[0]) + "[]";
@@ -93,14 +90,12 @@ function tsObjtoString(obj) {
     if (k == "constructor") {
       continue;
     }
-    arr.push((/^[_a-zA-Z][_a-zA-Z0-9]*$/.test(k)?k:JSON.stringify(k))  + ":" + tsObjtoString(obj[k]));
+    arr.push((/^[_a-zA-Z][_a-zA-Z0-9]*$/.test(k) ? k : JSON.stringify(k)) + ":" + tsObjtoString(obj[k]));
   }
   return "{" + arr.join(";\n") + "}";
 }
 
-
-
-exports.genTypeDoc = function(params) {
+exports.genTypeDoc = function (params) {
   var a = JSON.stringify(gen_checker(params)).replace(/\"/g, "");
   return a;
 };
