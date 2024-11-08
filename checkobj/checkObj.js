@@ -2,18 +2,18 @@ exports.sym = {
   unrequired: Symbol("unrequired"), //  标记不需要的键数组  string[] 未实现
   expand: Symbol("expand") //标记允许扩展 为true;
 };
-exports.defChecker={
-"array":Array.isArray
+exports.defChecker = {
+  "array": Array.isArray
 };
 /**
  * 
  * @param {String} name 
  * @param {*} checker 
  */
-exports.addChecker=function (name,checker) {
-  exports.defChecker[name]=checker
+exports.addChecker = function (name, checker) {
+  exports.defChecker[name] = checker
 }
-exports.delChecker=function (name) {
+exports.delChecker = function (name) {
   delete exports.defChecker[name]
 }
 /**
@@ -50,23 +50,23 @@ function checkObj(obj, checker) {
     }
     return true;
   } else if (checker.constructor === String) {
-    if(exports.defChecker.hasOwnProperty(checker)){
-      return arguments.callee(obj,exports.defChecker[checker]);
+    if (exports.defChecker.hasOwnProperty(checker)) {
+      return arguments.callee(obj, exports.defChecker[checker]);
     }
     else if (checker !== "") {
       return typeof obj === checker.toLowerCase();
     }
-     else return true;
+    else return true;
   }
-   else if (checker.constructor === RegExp) {
+  else if (checker.constructor === RegExp) {
     return typeof obj === "string" && checker.test && checker.test(obj);
   }
 
 
   /// /return arguments.callee({arr:obj,arr:checker});//反了....
   var checkerKey = Object.keys(checker);
- 
-  if (typeof obj!="object" || obj.constructor !== Object ||obj===null) {
+
+  if (typeof obj != "object" || obj.constructor !== Object || obj === null) {
     throw "..内部异常" + typeof obj + typeof checker;
   }
   var objkey = Object.keys(obj);
@@ -77,7 +77,7 @@ function checkObj(obj, checker) {
   for (var i = 0, len = checkerKey.length; i < len; i++) {
     var checker_Key = checkerKey[i];
     if (!obj.hasOwnProperty(checker_Key)) return false;
- 
+
     if (checker[checker_Key].constructor === Function) {
       if (!checker[checker_Key](obj[checker_Key], checker_Key))
         //传所在键的 key  // 一个校验不通过 返回
@@ -87,9 +87,9 @@ function checkObj(obj, checker) {
       var obj_arr1 = obj[checker_Key];
       var checker_arr2 = checker[checker_Key];
       if (!arguments.callee(obj_arr1, checker_arr2))
-       return false;
-    }else{
-      if (!arguments.callee(obj[checker_Key],checker[checker_Key])) {
+        return false;
+    } else {
+      if (!arguments.callee(obj[checker_Key], checker[checker_Key])) {
         return false;
       }
     }
