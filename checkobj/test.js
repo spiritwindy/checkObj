@@ -20,8 +20,6 @@ var checkFunc = {
     ]
 };
 
-/*checker.d=;*/
-debugger
 console.log("空字符串匹配任意类型(false, undefined 不允许设值):" + checkObj({ a: "555", b: 555, c: undefined }, checker));
 
 console.log("默认不允许扩展属性(false):" + checkObj({ a: undefined, b: 555, c: "test String", d: { a: undefined, b: 555, c: "num" } }, checker));//false

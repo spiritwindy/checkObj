@@ -21,10 +21,10 @@ function setGenRule(type, callVal) {
 
 /**
  * @param obj
- * @param {Map=} genRuleargu
+ * @param {Map} genRuleargu
  * @return {*}
  */
-var gen_checker = function (obj, genRuleargu) {
+var gen_checker = function (obj, genRuleargu, opt ={deep:1}) {
   // var genRule=genRuleargu||genRule;
   if (!genRuleargu) {
     var genRule0 = genRule;
@@ -47,8 +47,11 @@ var gen_checker = function (obj, genRuleargu) {
   if (objType !== "object") {
     return objType;
   }
-  if (obj.constructor === Array) {
-    if (obj.length > 0) return [arguments.callee(obj[0])];
+  if(objType == "object" && opt.deep<=0) {
+    return objType
+  }
+  if (Array.isArray(obj)) {
+    if (obj.length > 0) return [gen_checker(obj[0],null,{deep:opt.deep-1})];
     else return [];
   }
   var checker = {};
@@ -60,7 +63,7 @@ var gen_checker = function (obj, genRuleargu) {
     if (type !== "object" && type !== "function") {
       checker[key] = type;
     } else {
-      checker[key] = arguments.callee(obj[key], genRule0);
+      checker[key] = gen_checker(obj[key], genRule0,{deep:opt.deep-1});
     }
   }
   return checker;
