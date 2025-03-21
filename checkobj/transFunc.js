@@ -7,21 +7,21 @@
  * @returns {{val:Object.<T>,stat:boolean}}
  */
 function transFunc(obj, transer) {//可能存在异常的
-    var tranStat={stat:false,val:obj};
+    var tranStat = { stat: false, val: obj };
     for (var k in transer) {
         if (obj.hasOwnProperty(k)) {
             if (obj[k] == undefined || obj[k] == null || transer[k] == null || transer[k] == undefined)
                 return tranStat;
             if (transer[k].constructor == Function) {
                 obj[k] = transer[k](obj[k]);//自己确保返回转换后的值
-                tranStat.stat=true;
-            } else if(transer[k].constructor == Object){
-                var transerStat=transFunc(obj[k],transer[k]);
-                if(transerStat.stat){
-                    obj[k]=transerStat.val;// 没法递归 false
-                }else{
+                tranStat.stat = true;
+            } else if (transer[k].constructor == Object) {
+                var transerStat = transFunc(obj[k], transer[k]);
+                if (transerStat.stat) {
+                    obj[k] = transerStat.val;// 没法递归 false
+                } else {
                     return tranStat;// 
-                } 
+                }
             }
         }
         else {
