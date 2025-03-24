@@ -18,5 +18,8 @@
     "type": "git",
     "url": "https://github.com/spiritwindy/checkObj"
   },
-  "homepage": "https://github.com/spiritwindy/checkObj/tree/master/checkobj"
+  "homepage": "https://github.com/spiritwindy/checkObj/tree/master/checkobj",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
 }
