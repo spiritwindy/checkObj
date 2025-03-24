@@ -22,7 +22,7 @@ describe('checkObj', () => {
   it('should fail array check with single checker', () => {
     const checker = [(val) => val % 2 === 0];
     const result = checkObj([2, 3, 6], checker);
-    expect(result).toEqual({ success: false, error: "Array check failed", index: 1, value: 3, reason: { success: false, error: "Function check failed", value: 3, property: "[1]" } });
+    expect(result).toEqual({ success: false, error: "Array check failed", index: 1, value: 3, reason: false });
   });
 
   it('should pass array check with multiple checkers', () => {
