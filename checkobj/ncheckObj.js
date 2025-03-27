@@ -123,7 +123,7 @@ function checkObj(obj, checker, opt = { path: "" }) {
     }
   }
   if (checker[exports.sym.keys]) {
-     return checkObj(objkeys, [checker[exports.sym.keys]], { path: opt.path + "#keys" +  });
+     return checkObj(objkeys, [checker[exports.sym.keys]], { path: opt.path + "#keys"   });
   }
   if (checker[exports.sym.values]) {
     let values = Object.values(obj);

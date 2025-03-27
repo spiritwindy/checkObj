@@ -12,35 +12,41 @@ describe('checkObj', () => {
     const result = checkObj(43, checker);
     expect(result).toEqual({ success: false, error: "Function check failed", value: 43, property: "" });
   });
+  it('should pass object check with sym.expand allowing extra properties', () => {
+    const checker = { a: "number", [sym.expand]: true };
+    const result = checkObj({ a: 42, b: "extra" }, checker);
+    expect(result).toEqual({ success: true });
+  });
+
 
   it('should pass array check with single checker', () => {
     const checker = [(val) => val % 2 === 0];
-    const result = checkObj([2, 4, 6], checker);
+const result = checkObj([2, 4, 6], checker);
     expect(result).toEqual({ success: true });
   });
 
   it('should fail array check with single checker', () => {
-    const checker = [(val) => val % 2 === 0];
-    const result = checkObj([2, 3, 6], checker);
-    expect(result).toEqual({ success: false, error: "Array check failed", index: 1, value: 3, reason: false });
-  });
+      const checker = [(val) => val % 2 === 0];
+      const result = checkObj([2, 3, 6], checker);
+      expect(result).toEqual({ success: false, error: "Array check failed", index: 1, value: 3, reason: false });
+    });
 
-  it('should pass array check with multiple checkers', () => {
-    const checker = [(val) => val === 1, (val) => val === 2, (val) => val === 3];
-    const result = checkObj([1, 2, 3], checker);
-    expect(result).toEqual({ success: true });
-  });
+    it('should pass array check with multiple checkers', () => {
+      const checker = [(val) => val === 1, (val) => val === 2, (val) => val === 3];
+      const result = checkObj([1, 2, 3], checker);
+      expect(result).toEqual({ success: true });
+    });
 
-  it('should fail array check with multiple checkers', () => {
-    const checker = [(val) => val === 1, (val) => val === 2, (val) => val === 3];
-    const result = checkObj([1, 2, 4], checker);
-    expect(result).toEqual({ success: false, error: "Array element check failed", index: 2, value: 4, reason: { success: false, error: "Function check failed", value: 4, property: "[2]" } });
-  });
+    it('should fail array check with multiple checkers', () => {
+      const checker = [(val) => val === 1, (val) => val === 2, (val) => val === 3];
+      const result = checkObj([1, 2, 4], checker);
+      expect(result).toEqual({ success: false, error: "Array element check failed", index: 2, value: 4, reason: { success: false, error: "Function check failed", value: 4, property: "[2]" } });
+    });
 
   it('should pass string type check', () => {
-    const result = checkObj("hello", "string");
-    expect(result).toEqual({ success: true });
-  });
+      const result = checkObj("hello", "string");
+      expect(result).toEqual({ success: true });
+    });
 
   it('should fail string type check', () => {
     const result = checkObj(42, "string");
