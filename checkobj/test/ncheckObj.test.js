@@ -132,4 +132,37 @@ const result = checkObj([2, 4, 6], checker);
     const result = checkObj({ a: 42, b: "hello" }, checker);
     expect(result).toEqual({ success: true });
   });
+
+
+  test("should validate object keys using sym.keys", () => {
+    const schema = {
+      [sym.keys]: (key) => ["name", "age"].includes(key),
+    };
+
+    expect(checkObj({ name: "Alice", age: 25 }, schema)).toEqual({ success: true });
+    expect(checkObj({ name: "Alice", gender: "female" }, schema)).toEqual({
+      success: false,
+      error: "Array check failed",
+      index: 1,
+      value: 'gender',
+      reason: false,
+    });
+  });
+
+  test("should validate object values using sym.values", () => {
+    const schema = {
+      [sym.values]: (value) => typeof value === "string",
+    };
+
+    expect(checkObj({ name: "Alice", city: "New York" }, schema)).toEqual({ success: true });
+    expect(checkObj({ name: "Alice", age: 25 }, schema)).toEqual({
+      success: false,
+      error: "Array check failed",
+      index: 1,
+      value: 25,
+      reason: false,
+    });
+  });
+
+  
 });

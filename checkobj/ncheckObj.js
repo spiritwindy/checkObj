@@ -88,7 +88,7 @@ function checkObj(obj, checker, opt = { path: "" }) {
   }
 
   var objkeys = Object.keys(obj);
-  if (!checker[exports.sym.expand]) {
+  if (!checker[exports.sym.expand]&& !(checker[exports.sym.keys] || checker[exports.sym.values])) {
     for (var j = 0, len = objkeys.length; j < len; j++) {
       if (!checker.hasOwnProperty(objkeys[j])) {
         return { success: false, error: "Unexpected property", property: objkeys[j] };
