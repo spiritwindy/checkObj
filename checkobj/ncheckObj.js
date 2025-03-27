@@ -42,7 +42,7 @@ function checkObj(obj, checker, opt = { path: "" }) {
       var ck_arr0 = checker[0];
       for (var i1 = 0, len4 = arr.length; i1 < len4; i1++) {
         var res = ck_arr0.constructor === Function ? ck_arr0(arr[i1], i1) : checkObj(arr[i1], ck_arr0, { path: opt.path + "[" + i1 + "]" });
-        if (res!==true && res.success !== true) {
+        if (res !== true && res.success !== true) {
           return { success: false, error: "Array check failed", index: i1, value: arr[i1], reason: res };
         }
       }
@@ -93,9 +93,10 @@ function checkObj(obj, checker, opt = { path: "" }) {
       }
     }
   }
+  let checkKesys = getCheckKey(checker);
 
-  for (var i = 0, len = objkey.length; i < len; i++) {
-    var checkerKey = objkey[i];
+  for (var i = 0, len = checkKesys.length; i < len; i++) {
+    var checkerKey = checkKesys[i];
     var checkPath = opt.path + "." + checkerKey;
     if (!obj.hasOwnProperty(checkerKey)) {
       return { success: false, error: "Missing property", property: checkPath };
@@ -120,6 +121,12 @@ function checkObj(obj, checker, opt = { path: "" }) {
     }
   }
   return { success: true };
+}
+function getCheckKey(check) {
+  let checkKesys = Object.keys(checker);
+  checkKesys.filter(v => {
+    return v != exports.sym.expand
+  })
 }
 
 exports.checkObj = checkObj;
