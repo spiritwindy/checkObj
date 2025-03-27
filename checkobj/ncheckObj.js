@@ -1,6 +1,8 @@
 exports.sym = {
-  unrequired: Symbol("unrequired"), //  标记不需要的键数组  string[] 未实现
-  expand: Symbol("expand") //标记允许扩展 为true;
+  unrequired: Symbol.for("unrequired"), //  标记不需要的键数组  string[] 未实现
+  expand: Symbol.for("expand"), //标记允许扩展 为true;
+  keys: Symbol.for("keys"),
+  value: Symbol.for("value")
 };
 exports.defChecker = {
   "array": Array.isArray
@@ -85,11 +87,11 @@ function checkObj(obj, checker, opt = { path: "" }) {
     return { success: false, error: "Invalid object", value: obj };
   }
 
-  var objkey = Object.keys(obj);
+  var objkeys = Object.keys(obj);
   if (!checker[exports.sym.expand]) {
-    for (var j = 0, len = objkey.length; j < len; j++) {
-      if (!checker.hasOwnProperty(objkey[j])) {
-        return { success: false, error: "Unexpected property", property: objkey[j] };
+    for (var j = 0, len = objkeys.length; j < len; j++) {
+      if (!checker.hasOwnProperty(objkeys[j])) {
+        return { success: false, error: "Unexpected property", property: objkeys[j] };
       }
     }
   }
@@ -119,6 +121,13 @@ function checkObj(obj, checker, opt = { path: "" }) {
         return { success: false, error: "Property check failed", property: checkPath, value: obj[checkerKey], reason: res };
       }
     }
+  }
+  if (checker[exports.sym.keys]) {
+     return checkObj(objkeys, [checker[exports.sym.keys]], { path: opt.path + "#keys" +  });
+  }
+  if (checker[exports.sym.value]) {
+    let values = Object.values(obj);
+    return checkObj(values, [checker[exports.sym.value]], { path: opt.path + "#value" });
   }
   return { success: true };
 }
