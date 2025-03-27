@@ -2,7 +2,7 @@ exports.sym = {
   unrequired: Symbol.for("unrequired"), //  标记不需要的键数组  string[] 未实现
   expand: Symbol.for("expand"), //标记允许扩展 为true;
   keys: Symbol.for("keys"),
-  value: Symbol.for("value")
+  values: Symbol.for("values")
 };
 exports.defChecker = {
   "array": Array.isArray
@@ -125,9 +125,9 @@ function checkObj(obj, checker, opt = { path: "" }) {
   if (checker[exports.sym.keys]) {
      return checkObj(objkeys, [checker[exports.sym.keys]], { path: opt.path + "#keys" +  });
   }
-  if (checker[exports.sym.value]) {
+  if (checker[exports.sym.values]) {
     let values = Object.values(obj);
-    return checkObj(values, [checker[exports.sym.value]], { path: opt.path + "#value" });
+    return checkObj(values, [checker[exports.sym.values]], { path: opt.path + "#value" });
   }
   return { success: true };
 }
