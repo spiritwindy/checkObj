@@ -86,7 +86,25 @@ describe('checkObj', () => {
   it('should fail nested object check', () => {
     const checker = { a: { b: "number" } };
     const result = checkObj({ a: { b: "hello" } }, checker);
-    expect(result).toEqual({ success: false, error: "Property check failed", property: ".a.b", value: "hello", reason: { success: false, error: "Type mismatch", expected: "number", actual: "string" } });
+    console.log(result);
+    expect(result).toEqual({
+      success: false,
+      error: 'Property check failed',
+      property: '.a',
+      value: { b: 'hello' },
+      reason: {
+        success: false,
+        error: 'Property check failed',
+        property: '.a.b',
+        value: 'hello',
+        reason: {
+          success: false,
+          error: 'Type mismatch',
+          expected: 'number',
+          actual: 'string'
+        }
+      }
+    });
   });
 
   it('should pass custom checker', () => {

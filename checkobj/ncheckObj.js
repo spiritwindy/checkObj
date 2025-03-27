@@ -93,10 +93,10 @@ function checkObj(obj, checker, opt = { path: "" }) {
       }
     }
   }
-  let checkKesys = getCheckKey(checker);
+  let cks = getCheckKey(checker);
 
-  for (var i = 0, len = checkKesys.length; i < len; i++) {
-    var checkerKey = checkKesys[i];
+  for (var i = 0, len = cks.length; i < len; i++) {
+    var checkerKey = cks[i];
     var checkPath = opt.path + "." + checkerKey;
     if (!obj.hasOwnProperty(checkerKey)) {
       return { success: false, error: "Missing property", property: checkPath };
@@ -122,9 +122,9 @@ function checkObj(obj, checker, opt = { path: "" }) {
   }
   return { success: true };
 }
-function getCheckKey(check) {
+function getCheckKey(checker) {
   let checkKesys = Object.keys(checker);
-  checkKesys.filter(v => {
+  return checkKesys.filter(v => {
     return v != exports.sym.expand
   })
 }
