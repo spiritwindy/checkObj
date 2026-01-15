@@ -7,6 +7,36 @@ describe('checkObj', () => {
     expect(result).toEqual({ success: true });
   });
 
+  it('should pass function check', () => {
+    const checker = (val) => val == 41;
+    const result = checkObj([{ a: 41 }], [{a:checker}]);
+    // console.log(result)
+    expect(result.success).toEqual(true);
+  });
+
+    it('should pass function check1', () => {
+    const checker = (val) => undefined;
+    const result = checkObj([{ a: 41 }], [checker]);
+    console.log(result)
+    expect(result.success).toEqual(false);
+  });
+
+      it('should pass function check1', () => {
+    const checker = (val) => val.a == 41;
+    const result = checkObj([{ a: 41 }], [checker]);
+    // console.log(result)
+    expect(result.success).toEqual(true);
+  });
+  it('should pass unrequired property check', () => {
+    const checker = { a: "number", b: "string",[sym.unrequired]:["b"] };
+    const result = checkObj({ a: 42 }, checker);
+    expect(result).toEqual({ success: true });
+  });
+    it('should pass unrequired property check', () => {
+    const checker = { a: "number", b: "string" };
+    const result = checkObj({ a: 42 }, checker);
+    expect(result.success).toEqual(false);
+  });
   it('should fail function check', () => {
     const checker = (val) => val === 42;
     const result = checkObj(43, checker);
@@ -92,7 +122,7 @@ const result = checkObj([2, 4, 6], checker);
   it('should fail nested object check', () => {
     const checker = { a: { b: "number" } };
     const result = checkObj({ a: { b: "hello" } }, checker);
-    console.log(result);
+    // console.log(result);
     expect(result).toEqual({
       success: false,
       error: 'Property check failed',

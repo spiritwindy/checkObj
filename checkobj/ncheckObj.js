@@ -44,9 +44,13 @@ function checkObj(obj, checker, opt = { path: "" }) {
       var ck_arr0 = checker[0];
       for (var i1 = 0, len4 = arr.length; i1 < len4; i1++) {
         var res = ck_arr0.constructor === Function ? ck_arr0(arr[i1], i1) : checkObj(arr[i1], ck_arr0, { path: opt.path + "[" + i1 + "]" });
-        if (res !== true && res.success !== true) {
+        if (!res) {
           return { success: false, error: "Array check failed", index: i1, value: arr[i1], reason: res };
         }
+        if ( typeof res === "object" && res.success !== true) {
+          return { success: false, error: "Array check failed", index: i1, value: arr[i1], reason: res };
+        }
+
       }
     } else if (checker.length > 1) {
       if (checker.length !== obj.length) {
@@ -88,9 +92,11 @@ function checkObj(obj, checker, opt = { path: "" }) {
   }
 
   var objkeys = Object.keys(obj);
+  // 检查 unrequired 属性
+  const unrequiredKeys = checker[exports.sym.unrequired] ||[];
   if (!checker[exports.sym.expand]&& !(checker[exports.sym.keys] || checker[exports.sym.values])) {
     for (var j = 0, len = objkeys.length; j < len; j++) {
-      if (!checker.hasOwnProperty(objkeys[j])) {
+      if (!checker.hasOwnProperty(objkeys[j])&&!unrequiredKeys.includes(objkeys[j])) {// 不包含的key
         return { success: false, error: "Unexpected property", property: objkeys[j] };
       }
     }
@@ -100,8 +106,10 @@ function checkObj(obj, checker, opt = { path: "" }) {
   for (var i = 0, len = cks.length; i < len; i++) {
     var checkerKey = cks[i];
     var checkPath = opt.path + "." + checkerKey;
-    if (!obj.hasOwnProperty(checkerKey)) {
+    if (!obj.hasOwnProperty(checkerKey)&&!unrequiredKeys.includes(checkerKey)) {
       return { success: false, error: "Missing property", property: checkPath };
+    } else if (unrequiredKeys.includes(checkerKey) && obj[checkerKey] == null) {
+      continue
     }
 
     var res;
@@ -134,7 +142,7 @@ function checkObj(obj, checker, opt = { path: "" }) {
 function getCheckKey(checker) {
   let checkKesys = Object.keys(checker);
   return checkKesys.filter(v => {
-    return v != exports.sym.expand
+    return v != exports.sym.expand|| v!= exports.sym.keys || v!= exports.sym.values||v!=exports.sym.unrequired;
   })
 }
 
